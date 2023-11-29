@@ -6,6 +6,6 @@ Also see [Kotlin implementation](https://github.com/JiriBakker/advent-of-code-ko
 
 #### CLI commands
 
-Install requirements: `pip install -r requirements. txt`
+Install requirements: `pip install -r requirements.txt`
 
 Run tests: `pytest`
