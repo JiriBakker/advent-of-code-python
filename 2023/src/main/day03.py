@@ -10,8 +10,8 @@ def day03b(input: list[str]) -> int:
     return sum(map(lambda part: part[0] * part[1], filter(lambda part: len(part) == 2, parts.values())))
 
 def process_schematic(input: list[str], is_symbol_match: Callable[[str], bool]) -> dict[tuple[int, int], list[int]]:
-    def check_has_symbol_adjacent(x: int, y: int) -> tuple[int, int] | None:
-        return has_matching_neighbour(x, y, is_symbol_match, input)
+    def check_has_matching_symbol_adjacent(x: int, y: int) -> tuple[int, int] | None:
+        return find_matching_neighbour(x, y, is_symbol_match, input)
 
     matching_parts = {}
 
@@ -33,7 +33,7 @@ def process_schematic(input: list[str], is_symbol_match: Callable[[str], bool]) 
                 cur_nr = f"{cur_nr}{nr}"
 
                 if adjacent_symbol_pos is None:
-                    adjacent_symbol_pos = check_has_symbol_adjacent(x, y)
+                    adjacent_symbol_pos = check_has_matching_symbol_adjacent(x, y)
                     register_matched_symbol()
                     
             else:
@@ -45,7 +45,7 @@ def process_schematic(input: list[str], is_symbol_match: Callable[[str], bool]) 
 
     return matching_parts
 
-def has_matching_neighbour(x, y, matcher: Callable[[str], bool], grid: list[str]) -> tuple[int, int] | None:
+def find_matching_neighbour(x, y, matcher: Callable[[str], bool], grid: list[str]) -> tuple[int, int] | None:
     neighbors = [(x-1, y-1), (x, y-1), (x+1, y-1), (x-1, y), (x+1, y), (x-1, y+1), (x, y+1), (x+1, y+1)]
 
     for (x, y) in neighbors:
