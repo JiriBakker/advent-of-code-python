@@ -21,7 +21,8 @@ def process_schematic(input: list[str], is_symbol_match: Callable[[str], bool]) 
         adjacent_symbol_pos = None
 
         def register_matched_symbol():
-            if adjacent_symbol_pos != None and adjacent_symbol_pos not in matching_parts:                matching_parts[adjacent_symbol_pos] = []
+            if adjacent_symbol_pos != None and adjacent_symbol_pos not in matching_parts:                
+                matching_parts[adjacent_symbol_pos] = []
 
         def store_matching_part():
             if len(cur_nr) > 0 and adjacent_symbol_pos != None:
