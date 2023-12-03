@@ -20,6 +20,18 @@ def max_by_or_none[T](selector: Callable[[T], int], values: list[T]) -> T | None
     result = reduce(reducer, values, (-sys.maxsize, None))
     return result[1]
 
+def min_by[T](selector: Callable[[T], int], values: list[T]) -> T:
+    min = min_by_or_none(selector, values)
+    if min == None:
+        raise Exception("No min found (empty list?)")
+    return min
+
+def max_by[T](selector: Callable[[T], int], values: list[T]) -> T:
+    max = max_by_or_none(selector, values)
+    if max == None:
+        raise Exception("No max found (empty list?)")
+    return max
+
 def first_or_none[T](filter: Callable[[T], bool], iterable: list[T]) -> T | None:
     for item in iterable:
         if filter(item):
