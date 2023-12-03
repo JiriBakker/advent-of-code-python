@@ -1,6 +1,6 @@
 from functools import reduce
 from typing import Callable
-from main.util import firstOrNone
+from main.util import first_or_none
 
 def day03a(input: list[str]) -> int:
     parts = process_schematic(input, lambda char: not char.isnumeric() and char != ".")
@@ -62,7 +62,7 @@ def find_matching_neighbour(
         (x, y) = pos
         return x in range(0, len(grid[0])) and y in range(0, len(grid))
 
-    return firstOrNone(
+    return first_or_none(
         lambda neighbor: is_valid_pos(neighbor) and matcher(grid[neighbor[1]][neighbor[0]]),
         neighbors
     )

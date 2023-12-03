@@ -1,4 +1,4 @@
-from main.util import max_by
+from main.util import max_of
 
 def day02a(input: list[str]) -> int:
     games = parse_games(input)
@@ -41,7 +41,7 @@ def is_game_possible(game: tuple[int, list[tuple[int, int, int]]]) -> bool:
 
 def compute_min_dice(game: tuple[int, list[tuple[int, int, int]]]) -> list[int]:
     return [
-        max_by(lambda reach: reach[0], game[1]), # red
-        max_by(lambda reach: reach[1], game[1]), # green
-        max_by(lambda reach: reach[2], game[1])  # blue
+        max_of(lambda reach: reach[0], game[1]), # red
+        max_of(lambda reach: reach[1], game[1]), # green
+        max_of(lambda reach: reach[2], game[1])  # blue
     ]
