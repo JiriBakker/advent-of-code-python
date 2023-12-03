@@ -1,75 +1,49 @@
-import re
+from functools import reduce
 from typing import Callable
-from main.util import max_by
 
 def day03a(input: list[str]) -> int:
-    part_numbers = parse_schematic(input)
-    return sum(part_numbers)
+    parts = process_schematic(input, lambda char: not char.isnumeric() and char != ".")
+    return sum(reduce(lambda acc, part: acc + part, parts.values(), []))
 
 def day03b(input: list[str]) -> int:
-    gear_ratios = parse_gear_ratios(input)
-    return sum(gear_ratios)
+    parts = process_schematic(input, lambda char : char == "*")
+    return sum(map(lambda part: part[0] * part[1], filter(lambda part: len(part) == 2, parts.values())))
 
-def parse_gear_ratios(input: list[str]) -> list[int]:
-    def find_adjacent_gear_pos(x: int, y: int) -> tuple[int, int] | None:
-        def is_gear(char: str) -> bool:
-            return char == "*"
-        return has_matching_neighbour(x, y, is_gear, input)
+def process_schematic(input: list[str], is_symbol_match: Callable[[str], bool]) -> dict[tuple[int, int], list[int]]:
+    def check_has_symbol_adjacent(x: int, y: int) -> tuple[int, int] | None:
+        return has_matching_neighbour(x, y, is_symbol_match, input)
 
-    gears = {}
-    
+    matching_parts = {}
+
     for y in range(0, len(input)):
-        line = input[y]
         cur_nr = ""
-        gear_pos = None
-        for x in range(0, len(line)):
-            if line[x].isnumeric():
-                nr = int(line[x])
-                cur_nr = f"{cur_nr}{nr}"
-                if gear_pos is None:
-                    gear_pos = find_adjacent_gear_pos(x, y)
-                    if gear_pos != None and gear_pos not in gears:
-                        gears[gear_pos] = []
+        adjacent_symbol_pos = None
 
-            else:
-                if len(cur_nr) > 0 and gear_pos != None:
-                    gears[gear_pos].append(int(cur_nr))
+        def register_matched_symbol():
+            if adjacent_symbol_pos != None and adjacent_symbol_pos not in matching_parts:
+                matching_parts[adjacent_symbol_pos] = []
+
+        def store_matching_part():
+            if len(cur_nr) > 0 and adjacent_symbol_pos != None:
+                matching_parts[adjacent_symbol_pos].append(int(cur_nr))
+
+        for x in range(0, len(input[y])):
+            if input[y][x].isnumeric():
+                nr = int(input[y][x])
+                cur_nr = f"{cur_nr}{nr}"
+
+                if adjacent_symbol_pos is None:
+                    adjacent_symbol_pos = check_has_symbol_adjacent(x, y)
+                    register_matched_symbol()
                     
-                cur_nr = ""
-                gear_pos = None
-
-        if len(cur_nr) > 0 and gear_pos != None:
-            gears[gear_pos].append(int(cur_nr))
-
-    return list(map(lambda gear: gear[0] * gear[1], filter(lambda gear: len(gear) == 2, gears.values())))
-
-
-def parse_schematic(input: list[str]) -> list[int]:
-    def check_has_symbol_adjacent(x: int, y: int) -> bool:
-        def is_symbol(char: str) -> bool:
-            return not char.isnumeric() and char != "."
-        return has_matching_neighbour(x, y, is_symbol, input) != None
-
-    part_numbers = []
-    for y in range(0, len(input)):
-        line = input[y]
-        cur_nr = ""
-        has_symbol_adjacent = False
-        for x in range(0, len(line)):
-            if line[x].isnumeric():
-                nr = int(line[x])
-                cur_nr = f"{cur_nr}{nr}"
-                has_symbol_adjacent = has_symbol_adjacent or check_has_symbol_adjacent(x, y)
             else:
-                if len(cur_nr) > 0 and has_symbol_adjacent:
-                    part_numbers.append(int(cur_nr))
+                store_matching_part()
                 cur_nr = ""
-                has_symbol_adjacent = False
+                adjacent_symbol_pos = None
 
-        if len(cur_nr) > 0 and has_symbol_adjacent:
-            part_numbers.append(int(cur_nr))
+        store_matching_part()
 
-    return part_numbers
+    return matching_parts
 
 def has_matching_neighbour(x, y, matcher: Callable[[str], bool], grid: list[str]) -> tuple[int, int] | None:
     neighbors = [(x-1, y-1), (x, y-1), (x+1, y-1), (x-1, y), (x+1, y), (x-1, y+1), (x, y+1), (x+1, y+1)]
