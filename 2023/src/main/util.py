@@ -1,6 +1,6 @@
 from functools import reduce
+from typing import Callable, Sized
 import sys
-from typing import Callable
 
 def min_of[T](selector: Callable[[T], int], values: list[T]) -> int:
     return reduce(lambda min, value: min if min < selector(value) else selector(value), values, sys.maxsize)
@@ -32,6 +32,9 @@ def max_by[T](selector: Callable[[T], int], values: list[T]) -> T:
         raise Exception("No max found (empty list?)")
     return max
 
+def sum_by[T](selector: Callable[[T], int], values: list[T]) -> int:
+    return reduce(lambda acc, value: acc + selector(value), values, 0)
+
 def first_or_none[T](filter: Callable[[T], bool], iterable: list[T]) -> T | None:
     for item in iterable:
         if filter(item):
@@ -40,3 +43,6 @@ def first_or_none[T](filter: Callable[[T], bool], iterable: list[T]) -> T | None
 
 def any[T](filter: Callable[[T], bool], iterable: list[T]) -> bool:
     return first_or_none(filter, iterable) != None
+
+def filter_empty[T : Sized](input: list[T]) -> list[T]:
+    return list(filter(lambda item: len(item) > 0, input))
