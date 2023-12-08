@@ -2,6 +2,7 @@ from functools import reduce
 from typing import Callable, Sized
 import sys
 
+# Collections
 def min_of[T](selector: Callable[[T], int], values: list[T]) -> int:
     return reduce(lambda min, value: min if min < selector(value) else selector(value), values, sys.maxsize)
 
@@ -43,6 +44,9 @@ def first_or_none[T](filter: Callable[[T], bool], iterable: list[T]) -> T | None
 
 def any[T](filter: Callable[[T], bool], iterable: list[T]) -> bool:
     return first_or_none(filter, iterable) != None
+
+def all[T](filter: Callable[[T], bool], iterable: list[T]) -> bool:
+    return first_or_none(lambda it: filter(it) == False, iterable) == None
 
 def filter_empty[T : Sized](input: list[T]) -> list[T]:
     return list(filter(lambda item: len(item) > 0, input))
