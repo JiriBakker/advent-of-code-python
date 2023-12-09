@@ -1,41 +1,28 @@
 
-from typing import Callable
+from main.util import sum_by
 
 def day09a(input: list[str]) -> int:
-    sequences = parse_histories(input)
-    return sum(map(lambda sequence: extrapolate_history(sequence, lambda delta: delta, lambda a, b: a + b), sequences))
+    histories = parse_histories(input)
+    return sum_by(lambda history: extrapolate(history, -1, 1), histories)
 
 def day09b(input: list[str]) -> int:
     histories = parse_histories(input)
-    return sum(map(lambda sequence: extrapolate_history(sequence, lambda delta: list(reversed(delta)), lambda a, b: a - b), histories))
+    return sum_by(lambda history: extrapolate(history, 0, -1), histories)
 
-def extrapolate_history(
-    history: list[int], 
-    map_delta: Callable[[list[int]], list[int]],
-    extrapolate: Callable[[int, int], int]
-) -> int:
-    deltas = [history]
-    while True:
-        delta = get_deltas(deltas[-1])
-        deltas.append(delta)
-        if is_zeroes(delta):
-            break
+def extrapolate(history: list[int], extrapolate_index: int, sign: int) -> int:
+    if is_stable(history):
+        return history[0]
 
-    mapped_deltas = list(map(lambda delta: map_delta(delta), deltas))
+    return (
+        history[extrapolate_index] + 
+        sign * extrapolate(get_deltas(history), extrapolate_index, sign)
+    )
 
-    delta = mapped_deltas[-2][-1]
-    for i in range(len(mapped_deltas) - 3, -1, -1):
-        next_value = extrapolate(mapped_deltas[i][-1], delta)
-        mapped_deltas[i].append(next_value)
-        delta = mapped_deltas[i][-1]
+def get_deltas(history: list[int]) -> list[int]:
+    return list(map(lambda i: history[i] - history[i - 1], range(1, len(history))))
 
-    return mapped_deltas[0][-1]
+def is_stable(history: list[int]) -> bool:
+    return all(map(lambda nr: nr == history[0], history))
 
 def parse_histories(input: list[str]) -> list[list[int]]:
     return list(map(lambda line: list(map(lambda nr: int(nr), line.split(" "))), input))
-
-def get_deltas(sequence: list[int]) -> list[int]:
-    return list(map(lambda i: sequence[i] - sequence[i - 1], range(1, len(sequence))))
-
-def is_zeroes(sequence: list[int]) -> bool:
-    return all(map(lambda nr: nr == 0, sequence))
