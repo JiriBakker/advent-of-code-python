@@ -11,7 +11,7 @@ CCC = (ZZZ, GGG)
 DDD = (DDD, DDD)
 EEE = (EEE, EEE)
 GGG = (GGG, GGG)
-ZZZ = (ZZZ, ZZZ)3""".split("\n"))
+ZZZ = (ZZZ, ZZZ)""".split("\n"))
     
 def test_day08a_example2():
     assert 6 == day08a(

@@ -94,6 +94,5 @@ def calculate_winnings(hands: list[Hand]) -> int:
     sorted_hands = sorted(hands, key = cmp_to_key(lambda hand1, hand2: hand1.compare(hand2)))
     winnings = 0
     for i in range(0, len(sorted_hands)):
-        print(f"{i + 1}: {sorted_hands[i]}")
         winnings += sorted_hands[i].bid * (i + 1)
     return winnings
