@@ -1,4 +1,3 @@
-
 from main.util import sum_by
 
 def day09a(input: list[str]) -> int:
