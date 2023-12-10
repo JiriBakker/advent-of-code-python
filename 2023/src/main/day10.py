@@ -7,11 +7,65 @@ def day10b(input: list[str]) -> int:
     height = len(input)
 
     path = trace_path(input)
-    grid = plot_on_zoomed_grid(path, input)
-    filled_grid = fill_grid(grid, width * 2, height * 2)
+    grid = ZoomedGrid(path, input)
+    grid.flood()
 
-    return count_empty_unzoomed(filled_grid, width * 2, height * 2)
+    return grid.count_empty_unzoomed()
 
+class ZoomedGrid(object):
+    def __init__(self, path: list[tuple[int, int]], input: list[str]):
+        self.width = len(input) * 2
+        self.height = len(input[0]) * 2
+        self.grid = self.__plot_path(path, input)
+                                     
+    def __plot_path(self, path: list[tuple[int, int]], input: list[str]) -> dict[int, dict[int, str]]:
+        grid = {}
+        def set_cell(x: int, y: int, char: str):
+            grid[y] = grid.get(y, {})
+            grid[y][x] = char
+
+        for i in range(1, len(path)):
+            (prevx, prevy) = path[i - 1]
+            (x, y) = path[i]
+
+            set_cell(x * 2, y * 2, input[y][x])
+            if prevx == x:
+                set_cell(x * 2, y * 2 + (prevy - y), "|")
+            else:
+                set_cell(x * 2 + (prevx - x), y * 2, "-")
+        
+        return grid
+    
+    def get_cell(self, x: int, y: int) -> str:
+        return self.grid[y][x] if y in self.grid and x in self.grid[y] else " "
+        
+    def __set_cell(self, x: int, y: int, char: str):
+        self.grid[y] = self.grid.get(y, {})
+        self.grid[y][x] = char
+    
+    def flood(self):
+        to_visit: list[tuple[int, int]] = [(-1,-1)]
+
+        while len(to_visit) > 0:
+            (x, y) = to_visit.pop(0)
+            self.__set_cell(x, y, "X")
+
+            if x >= 0 and self.get_cell(x - 1, y) == " " and (x - 1, y) not in to_visit:
+                to_visit.append((x - 1, y))
+            if x < self.width and self.get_cell(x + 1, y) == " " and (x + 1, y) not in to_visit:
+                to_visit.append((x + 1, y))
+            if y >= 0 and self.get_cell(x, y - 1) == " " and (x, y - 1) not in to_visit:
+                to_visit.append((x, y - 1))
+            if y < self.height and self.get_cell(x, y + 1) == " " and (x, y + 1) not in to_visit:
+                to_visit.append((x, y + 1))
+
+    def count_empty_unzoomed(self) -> int:
+        empty_count = 0
+        for y in range(0, self.height, 2):
+            for x in range(0, self.width, 2):
+                if self.get_cell(x, y) == " ":
+                    empty_count += 1
+        return empty_count
 
 pipes_accessible_from_right = ["-", "L", "F", "S"]
 pipes_accessible_from_left = ["-", "J", "7", "S"]
@@ -78,53 +132,10 @@ def find_possible_moves(input: list[str], x: int, y: int) -> list[tuple[int, int
 
     return possible_moves
 
-def plot_on_zoomed_grid(path: list[tuple[int, int]], input: list[str]) -> dict[int, dict[int, str]]:
-    grid = {}
-    def set_cell(x: int, y: int, char: str):
-        grid[y] = grid.get(y, {})
-        grid[y][x] = char
 
-    for i in range(1, len(path)):
-        (prevx, prevy) = path[i - 1]
-        (x, y) = path[i]
-
-        set_cell(x * 2, y * 2, input[y][x])
-        if prevx == x:
-            set_cell(x * 2, y * 2 + (prevy - y), "|")
-        else:
-            set_cell(x * 2 + (prevx - x), y * 2, "-")
-    
-    return grid
 
 def fill_grid(grid: dict[int, dict[int, str]], width: int, height: int) -> dict[int, dict[int, str]]:
-    to_visit: list[tuple[int, int]] = [(-1,-1)]
-
-    def get_cell(x: int, y: int) -> str:
-        return grid[y][x] if y in grid and x in grid[y] else " "
     
-    def set_cell(x: int, y: int, char: str):
-        grid[y] = grid.get(y, {})
-        grid[y][x] = char
-
-    while len(to_visit) > 0:
-        (x, y) = to_visit.pop(0)
-        set_cell(x, y, "X")
-
-        if x >= 0 and get_cell(x - 1, y) == " " and (x - 1, y) not in to_visit:
-            to_visit.append((x - 1, y))
-        if x < width and get_cell(x + 1, y) == " " and (x + 1, y) not in to_visit:
-            to_visit.append((x + 1, y))
-        if y >= 0 and get_cell(x, y - 1) == " " and (x, y - 1) not in to_visit:
-            to_visit.append((x, y - 1))
-        if y < height and get_cell(x, y + 1) == " " and (x, y + 1) not in to_visit:
-            to_visit.append((x, y + 1))
 
     return grid
 
-def count_empty_unzoomed(grid: dict[int, dict[int, str]], width: int, height: int) -> int:
-    empty_count = 0
-    for y in range(0, height, 2):
-        for x in range(0, width, 2):
-            if y not in grid or x not in grid[y] or grid[y][x] == " ":
-                empty_count += 1
-    return empty_count
