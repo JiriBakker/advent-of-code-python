@@ -45,8 +45,14 @@ def first_or_none[T](filter: Callable[[T], bool], iterable: list[T]) -> T | None
 def any[T](filter: Callable[[T], bool], iterable: list[T]) -> bool:
     return first_or_none(filter, iterable) != None
 
+def none[T](filter: Callable[[T], bool], iterable: list[T]) -> bool:
+    return first_or_none(filter, iterable) == None
+
 def all[T](filter: Callable[[T], bool], iterable: list[T]) -> bool:
     return first_or_none(lambda it: filter(it) == False, iterable) == None
 
 def filter_empty[T : Sized](input: list[T]) -> list[T]:
     return list(filter(lambda item: len(item) > 0, input))
+
+def manhattan_distance(x1: int, y1: int, x2: int, y2: int) -> int:
+    return abs(x1 - x2) + abs(y1 - y2)
