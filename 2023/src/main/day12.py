@@ -18,12 +18,12 @@ def parse_records(input: list[str]) -> list[tuple[list[str], list[int]]]:
 result_cache = {}
 
 def find_arrangements(conditions: str, group_counts: tuple[int]) -> int:
-    cache_hash = f"{conditions}_{group_counts}"
-    if cache_hash in result_cache:
-        return result_cache[cache_hash]
+    cache_key = f"{conditions}_{group_counts}"
+    if cache_key in result_cache:
+        return result_cache[cache_key]
     
     def cache_result(result: int) -> int:
-        result_cache[cache_hash] = result
+        result_cache[cache_key] = result
         return result
 
     if len(group_counts) == 0:
