@@ -56,3 +56,7 @@ def filter_empty[T : Sized](input: list[T]) -> list[T]:
 
 def manhattan_distance(x1: int, y1: int, x2: int, y2: int) -> int:
     return abs(x1 - x2) + abs(y1 - y2)
+
+def repeat(func: Callable[[], None], times: int) -> None:
+    for _ in range(0, times):
+        func()
