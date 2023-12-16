@@ -11,13 +11,15 @@ def max_of[T](selector: Callable[[T], int], values: list[T]) -> int:
 
 def min_by_or_none[T](selector: Callable[[T], int], values: list[T]) -> T | None:
     def reducer(acc: tuple[int, T | None], value: T) -> tuple[int, T | None]:
-        return acc if acc[0] < selector(value) else (selector(value), value)
+        result = selector(value)
+        return acc if acc[0] < result else (result, value)
     result = reduce(reducer, values, (sys.maxsize, None))
     return result[1]
 
 def max_by_or_none[T](selector: Callable[[T], int], values: list[T]) -> T | None:
     def reducer(acc: tuple[int, T | None], value: T) -> tuple[int, T | None]:
-        return acc if acc[0] > selector(value) else (selector(value), value)
+        result = selector(value)
+        return acc if acc[0] > result else (result, value)
     result = reduce(reducer, values, (-sys.maxsize, None))
     return result[1]
 
