@@ -1,5 +1,6 @@
 from main.day16 import day16a, day16b
 from test.util import read_input, to_str_list
+import pytest
 
 def test_day16a_example():
     assert 46 == day16a(to_str_list(
@@ -30,5 +31,6 @@ def test_day16b_example():
 .|....-|.\\
 ..//.|...."""))
     
-# def test_day16b_actual():
-#     assert 7513 == day16b(read_input(day = 16)) 
+@pytest.mark.skip(reason="Too slow")
+def test_day16b_actual():
+    assert 7513 == day16b(read_input(day = 16)) 

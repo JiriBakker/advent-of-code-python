@@ -39,7 +39,7 @@ def find_min_heat_cost(input: list[str], max_straight_steps: int, min_straight_s
             continue
         visited.add((step.x, step.y, step.straight_steps, step.direction))
 
-        if (step.x, step.y) == target_pos:
+        if (step.x, step.y) == target_pos and step.straight_steps >= min_straight_steps:
             return step.cost
  
         next_directions: list[Direction] = []

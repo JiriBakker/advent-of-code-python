@@ -1,5 +1,6 @@
 from main.day05 import day05a, day05b
 from test.util import read_input, to_str_list
+import pytest
 
 def test_day05a_example():
     assert 35 == day05a(to_str_list(
@@ -76,6 +77,6 @@ humidity-to-location map:
 60 56 37
 56 93 4"""))
 
-# Too slow (TODO make faster :D)  
-# def test_day05b_actual():
-#     assert 5921508 == day05b(read_input(day = 5))
+@pytest.mark.skip(reason="Too slow")
+def test_day05b_actual():
+    assert 5921508 == day05b(read_input(day = 5))
