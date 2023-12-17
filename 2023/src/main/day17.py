@@ -1,7 +1,7 @@
+from __future__ import annotations
 from dataclasses import dataclass, field
 from enum import Enum
 from queue import PriorityQueue
-from typing import Any
 from main.util import is_within_bounds
 
 class Direction(Enum):
@@ -17,7 +17,7 @@ class Step(object):
     y: int = field(compare = False)
     direction: Direction = field(compare = False)
     straight_steps: int
-    prev: Any | None = field(compare = False)
+    prev: Step | None = field(compare = False)
 
 def day17a(input: list[str]) -> int:
     return find_min_heat_cost(input, max_straight_steps = 3)

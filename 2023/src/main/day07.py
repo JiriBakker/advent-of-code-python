@@ -1,5 +1,5 @@
+from __future__ import annotations
 from functools import cmp_to_key
-from typing import Any
 
 def day07a(input: list[str]) -> int:
     hands = parse_hands(input)
@@ -56,7 +56,7 @@ class Hand(object):
     def __str__(self) -> str:
         return f"{self.bid} {self.cards} {self.strength}"
     
-    def compare(self, other: Any) -> int:
+    def compare(self, other: Hand) -> int:
         if self.strength == other.strength:
             return compare_cards(self.cards, other.cards)
         return self.strength - other.strength
