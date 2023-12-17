@@ -1,12 +1,12 @@
 from functools import reduce
-from typing import Callable, Sized
+from typing import Callable, Iterable, Sized
 import sys
 
 # Collections
-def min_of[T](selector: Callable[[T], int], values: list[T]) -> int:
+def min_of[T](selector: Callable[[T], int], values: Iterable[T]) -> int:
     return reduce(lambda min, value: min if min < selector(value) else selector(value), values, sys.maxsize)
 
-def max_of[T](selector: Callable[[T], int], values: list[T]) -> int:
+def max_of[T](selector: Callable[[T], int], values: Iterable[T]) -> int:
     return reduce(lambda max, value: max if max > selector(value) else selector(value), values, -sys.maxsize)
 
 def min_by_or_none[T](selector: Callable[[T], int], values: list[T]) -> T | None:
@@ -62,3 +62,6 @@ def manhattan_distance(x1: int, y1: int, x2: int, y2: int) -> int:
 def repeat(func: Callable[[], None], times: int) -> None:
     for _ in range(0, times):
         func()
+
+def is_within_bounds(x: int, y: int, input: list[str]) -> bool:
+    return x >= 0 and y >= 0 and x < len(input[0]) and y < len(input)
