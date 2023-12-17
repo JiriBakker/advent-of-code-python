@@ -10,7 +10,7 @@ def day13a(input: list[str]) -> int:
 def day13b(input: list[str]) -> int:
     patterns = parse_patterns(input)
     total = 0
-    initial_splits = []
+    initial_splits: list[tuple[list[str],int,int]] = []
     for pattern in patterns:
         x_split = find_vertical_split(pattern)
         y_split = find_horizontal_split(pattern)
@@ -23,7 +23,7 @@ def day13b(input: list[str]) -> int:
     return total
 
 def parse_patterns(input: list[str]) -> list[list[str]]:
-    patterns = [[]]
+    patterns: list[list[str]] = [[]]
     for line in input:
         if len(line) == 0:
             patterns.append([])

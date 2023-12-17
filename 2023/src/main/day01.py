@@ -1,4 +1,3 @@
-from functools import reduce
 from main.util import min_by, max_by
 
 def day01a(input: list[str]) -> int:

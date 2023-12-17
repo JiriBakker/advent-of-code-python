@@ -8,7 +8,7 @@ def day15a(input: list[str]) -> int:
 def day15b(input: list[str]) -> int:
     initialization_steps = parse_input(input)
 
-    boxes = [{} for _ in range(0, 256)]
+    boxes: list[dict[str,int]] = [{} for _ in range(0, 256)]
 
     for step in initialization_steps:
         label = step.split("=")[0].rstrip("-")
@@ -24,7 +24,7 @@ def day15b(input: list[str]) -> int:
 
     return compute_focusing_power(boxes)
 
-def compute_focusing_power(boxes: list[tuple[list[str], dict[str, int]]]) -> int:
+def compute_focusing_power(boxes: list[dict[str,int]]) -> int:
     focusing_power = 0
     for box_nr in range(1, 257):
         box = boxes[box_nr - 1]

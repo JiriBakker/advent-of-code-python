@@ -4,7 +4,7 @@ from main.util import first_or_none
 
 def day03a(input: list[str]) -> int:
     parts = process_schematic(input, lambda char: not char.isnumeric() and char != ".")
-    return sum(reduce(lambda acc, part: acc + part, parts.values(), []))
+    return sum(reduce(lambda acc, part: acc + part, parts.values(), list[int]()))
 
 def day03b(input: list[str]) -> int:
     parts = process_schematic(input, lambda char : char == "*")
@@ -14,7 +14,7 @@ def process_schematic(input: list[str], is_symbol_match: Callable[[str], bool]) 
     def check_has_matching_symbol_adjacent(x: int, y: int) -> tuple[int, int] | None:
         return find_matching_neighbour(x, y, is_symbol_match, input)
 
-    matching_parts = {}
+    matching_parts: dict[tuple[int,int],list[int]] = {}
 
     for y in range(0, len(input)):
         cur_nr = ""

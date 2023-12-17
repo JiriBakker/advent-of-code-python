@@ -38,7 +38,7 @@ def find_loop_intervals(instructions: str, nodes: dict[str, Node]) -> list[int]:
     nr_of_end_nodes = len(list(filter(lambda node: is_end_node(node.key), nodes.values())))
 
     path_length = 0
-    end_nodes_seen = {}
+    end_nodes_seen: dict[str,int] = {}
     while True:
         instruction = instructions[path_length % len(instructions)]
         cur_nodes = list(map(lambda node: nodes[node.left] if instruction == "L" else nodes[node.right], cur_nodes))
@@ -52,7 +52,7 @@ def find_loop_intervals(instructions: str, nodes: dict[str, Node]) -> list[int]:
                 return list(end_nodes_seen.values())
 
 def parse_input(input: list[str]) -> tuple[str, dict[str, Node]]:
-    nodes = {}
+    nodes: dict[str,Node] = {}
     instructions = input[0]
     for line in input[2:]:
         (key, _, leftKey, rightKey) = line.split(" ")

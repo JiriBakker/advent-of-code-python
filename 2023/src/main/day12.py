@@ -1,23 +1,23 @@
 def day12a(input: list[str]) -> int:
     records = parse_records(input)
-    return sum(map(lambda record: find_arrangements(record[0], tuple(record[1])), records))
+    return sum(map(lambda record: find_arrangements(record[0], record[1]), records))
 
 def day12b(input: list[str]) -> int:
     records = parse_records(input)
     records_times_five = map(lambda record: (record[0] + "?" + record[0] + "?" + record[0] + "?" + record[0] + "?" + record[0], record[1] + record[1] + record[1] + record[1] + record[1]), records)
-    return sum(map(lambda record: find_arrangements(record[0], tuple(record[1])), records_times_five))
+    return sum(map(lambda record: find_arrangements(record[0], record[1]), records_times_five))
 
-def parse_records(input: list[str]) -> list[tuple[list[str], list[int]]]:
-    records = []
+def parse_records(input: list[str]) -> list[tuple[str, list[int]]]:
+    records: list[tuple[str, list[int]]] = []
     for line in input:
         group_counts = list(map(lambda nr: int(nr), line.split(" ")[1].split(",")))
         conditions = line.split(" ")[0]
         records.append((conditions, group_counts))
     return records
 
-result_cache = {}
+result_cache: dict[str,int] = {}
 
-def find_arrangements(conditions: str, group_counts: tuple[int]) -> int:
+def find_arrangements(conditions: str, group_counts: list[int]) -> int:
     cache_key = f"{conditions}_{group_counts}"
     if cache_key in result_cache:
         return result_cache[cache_key]
@@ -56,7 +56,7 @@ def find_valid_sub_arrangements(conditions: str, count: int) -> list[int]:
     
     index_first_hash = conditions.index("#")
 
-    valid_sub_arrangements_start_indices = []
+    valid_sub_arrangements_start_indices: list[int] = []
     for index in range(0, index_first_hash + 1):
         if index + count > len(conditions):
             break

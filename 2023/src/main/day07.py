@@ -1,4 +1,5 @@
 from functools import cmp_to_key
+from typing import Any
 
 def day07a(input: list[str]) -> int:
     hands = parse_hands(input)
@@ -55,7 +56,7 @@ class Hand(object):
     def __str__(self) -> str:
         return f"{self.bid} {self.cards} {self.strength}"
     
-    def compare(self, other) -> int:
+    def compare(self, other: Any) -> int:
         if self.strength == other.strength:
             return compare_cards(self.cards, other.cards)
         return self.strength - other.strength
@@ -72,7 +73,7 @@ def compare_cards(cards1: str, cards2: str) -> int:
     return 0
 
 def count_cards(cards: str) -> tuple[int, dict[str, int]]:
-    counts = {}
+    counts: dict[str,int] = {}
     for card in cards:
         counts[card] = counts.get(card, 0) + 1
 
@@ -84,7 +85,7 @@ def count_matches(counts: dict[str, int], target: int) -> int:
     return len([card_count for card_count in counts.items() if card_count[1] == target])
 
 def parse_hands(input: list[str]) -> list[Hand]:
-    hands = []
+    hands: list[Hand] = []
     for line in input:
         (cards, bid) = line.split(" ")
         hands.append(Hand(int(bid), cards))

@@ -13,7 +13,7 @@ def day11b(input: list[str], delta: int = 1_000_000) -> int:
 
 class GalaxyMap(object):
     def __init__(self):
-        self.galaxies = []
+        self.galaxies: list[tuple[int,int]] = []
         self.min_x = sys.maxsize
         self.max_x = -sys.maxsize
         self.min_y = sys.maxsize
@@ -27,7 +27,7 @@ class GalaxyMap(object):
         self.max_y = max(self.max_y, y)
 
     def __move_right(self, x_divider: int, delta: int):
-        updated_galaxies = []
+        updated_galaxies: list[tuple[int,int]] = []
         for (x, y) in self.galaxies:
             if x > x_divider:
                 updated_galaxies.append((x + delta, y))
@@ -37,7 +37,7 @@ class GalaxyMap(object):
         self.max_x += delta
 
     def __move_down(self, y_divider: int, delta: int):
-        updated_galaxies = []
+        updated_galaxies: list[tuple[int,int]] = []
         for (x, y) in self.galaxies:
             if y > y_divider:
                 updated_galaxies.append((x, y + delta))
@@ -47,14 +47,14 @@ class GalaxyMap(object):
         self.max_y += delta
 
     def expand(self, delta: int):
-        x_moves = []
+        x_moves: list[int] = []
         for x in range(self.min_x, self.max_x):
             if none(lambda galaxy: galaxy[0] == x, self.galaxies):
                 x_moves.append(x)
         for x in sorted(x_moves, reverse=True):
             self.__move_right(x, delta)
 
-        y_moves = []
+        y_moves: list[int] = []
         for y in range(self.min_y + 1, self.max_y):
             if none(lambda galaxy: galaxy[1] == y, self.galaxies):
                 y_moves.append(y)

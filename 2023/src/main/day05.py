@@ -11,7 +11,7 @@ def day05b(input: list[str]) -> int:
 
 class AlmanacMapping:
     def __init__(self):
-        self.ranges = []
+        self.ranges: list[tuple[int,int,int]] = []
 
     def add_range(self, destStart: int, srcStart: int, rangeLength: int):
         self.ranges.append((destStart, srcStart, rangeLength))

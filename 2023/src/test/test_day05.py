@@ -1,8 +1,8 @@
 from main.day05 import day05a, day05b
-from test.util import read_input
+from test.util import read_input, to_str_list
 
 def test_day05a_example():
-    assert 35 == day05a(
+    assert 35 == day05a(to_str_list(
         """seeds: 79 14 55 13
 
 seed-to-soil map:
@@ -35,13 +35,13 @@ temperature-to-humidity map:
 
 humidity-to-location map:
 60 56 37
-56 93 4""".split("\n"))
+56 93 4"""))
     
 def test_day05a_actual():
     assert 226172555 == day05a(read_input(day = 5))
 
 def test_day05b_example():
-    assert 46 == day05b(
+    assert 46 == day05b(to_str_list(
         """seeds: 79 14 55 13
 
 seed-to-soil map:
@@ -74,7 +74,7 @@ temperature-to-humidity map:
 
 humidity-to-location map:
 60 56 37
-56 93 4""".split("\n"))
+56 93 4"""))
 
 # Too slow (TODO make faster :D)  
 # def test_day05b_actual():

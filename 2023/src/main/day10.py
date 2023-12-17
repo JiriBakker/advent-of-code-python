@@ -45,7 +45,7 @@ def trace_path(input: list[str]) -> list[tuple[int, int]]:
     return path
 
 def find_possible_moves(input: list[str], x: int, y: int) -> list[tuple[int, int]]:
-    possible_moves = []
+    possible_moves: list[tuple[int,int]] = []
 
     if (x > 0 and
         input[y][x] in pipes_can_move_left and
@@ -78,7 +78,7 @@ class ZoomedGrid(object):
     def __init__(self, path: list[tuple[int, int]], input: list[str]):
         self.height = len(input) * 2
         self.width = len(input[0]) * 2
-        self.grid = {}
+        self.grid: dict[int,dict[int,str]] = {}
         self.__plot_path(path, input)
                                      
     def __plot_path(self, path: list[tuple[int, int]], input: list[str]):

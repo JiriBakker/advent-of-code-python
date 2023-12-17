@@ -12,7 +12,7 @@ def day16b(input: list[str]) -> int:
     ])
 
 def energize(start_x: int, start_y: int, start_dx: int, start_dy: int, input: list[str]):
-    grid = list(map(lambda line: list(map(lambda char: (char, set()), line)), input))
+    grid: list[list[tuple[str,set[str]]]] = list(map(lambda line: list(map(lambda char: (char, set()), line)), input))
 
     to_visit = [(start_x, start_y, start_dx, start_dy)]
 
@@ -62,7 +62,7 @@ def energize(start_x: int, start_y: int, start_dx: int, start_dy: int, input: li
 
     return count_energized(grid)
 
-def count_energized(grid: list[list[tuple[str, set]]]) -> int:
+def count_energized(grid: list[list[tuple[str, set[str]]]]) -> int:
     energized_count = 0
     for y in range(0, len(grid)):
         for x in range(0, len(grid[0])):

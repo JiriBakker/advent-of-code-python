@@ -16,7 +16,7 @@ def parse_games(input: list[str]) -> list[tuple[int, list[tuple[int, int, int]]]
         gameId = int(sections[0].split(" ")[1].rstrip(":"))
 
         reachSections = line[len(sections[0]) + 2:].split(";")
-        reaches = []
+        reaches:list[tuple[int,int,int]] = []
 
         for reach in reachSections:
             tokens = reach.strip().split(" ")
