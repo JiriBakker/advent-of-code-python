@@ -31,6 +31,6 @@ def test_day16b_example():
 .|....-|.\\
 ..//.|...."""))
     
-@pytest.mark.skip(reason="Too slow")
+@pytest.mark.skip(reason="Too slow (3s)")
 def test_day16b_actual():
     assert 7513 == day16b(read_input(day = 16)) 

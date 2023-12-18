@@ -77,6 +77,6 @@ humidity-to-location map:
 60 56 37
 56 93 4"""))
 
-@pytest.mark.skip(reason="Too slow")
+@pytest.mark.skip(reason="Too slow (~10m)")
 def test_day05b_actual():
     assert 5921508 == day05b(read_input(day = 5))

@@ -18,7 +18,7 @@ def test_day17a_example():
 2546548887735
 4322674655533"""))
 
-@pytest.mark.skip(reason="Too slow")
+@pytest.mark.skip(reason="Too slow (3s)")
 def test_day17a_actual():
     assert 1128 == day17a(read_input(day = 17))
 
@@ -46,6 +46,6 @@ def test_day17b_example2():
 999999999991
 999999999991"""))
 
-@pytest.mark.skip(reason="Too slow")
+@pytest.mark.skip(reason="Too slow (10s)")
 def test_day17b_actual():
     assert 1268 == day17b(read_input(day = 17)) 
