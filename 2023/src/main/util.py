@@ -53,6 +53,9 @@ def none[T](filter: Callable[[T], bool], iterable: Iterable[T]) -> bool:
 def all[T](filter: Callable[[T], bool], iterable: Iterable[T]) -> bool:
     return first_or_none(lambda it: filter(it) == False, iterable) == None
 
+def count[T](filter: Callable[[T], bool], iterable: Iterable[T]) -> int:
+    return sum_by(lambda it: 1 if filter(it) else 0, iterable)
+
 def filter_empty[T : Sized](input: Iterable[T]) -> list[T]:
     return list(filter(lambda item: len(item) > 0, input))
 
