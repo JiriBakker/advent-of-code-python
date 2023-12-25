@@ -2,7 +2,7 @@ from main.day25 import day25a
 from test.util import read_input, to_str_list
 
 def test_day25a_example():
-    assert 94 == day25a(to_str_list(
+    assert 54 == day25a(to_str_list(
         """jqt: rhn xhk nvd
 rsh: frs pzl lsr
 xhk: hfx
@@ -17,5 +17,5 @@ lsr: lhk
 rzs: qnr cmg lsr rsh
 frs: qnr lhk lsr"""))
     
-# def test_day25a_actual():
-#     assert 16050 == day25a(read_input(day = 25))
+def test_day25a_actual():
+    assert 495607 == day25a(read_input(day = 25))
