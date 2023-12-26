@@ -8,4 +8,6 @@ Also see [Kotlin implementation](https://github.com/JiriBakker/advent-of-code-ko
 
 Install requirements: `pip install -r requirements.txt`
 
-Run tests: `pytest`
+Run tests: 
+ * Ensure input files (`day01`, `day02` etc.) are present in `<year>/input/`
+ * Run `pytest` (or `pytest -s` or `pytest -s <year>/src/test/test_day<nr>.py`)
